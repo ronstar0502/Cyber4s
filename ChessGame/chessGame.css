@@ -1,0 +1,34 @@
+.title-center{
+    text-align: center;
+}
+.chess-board { 
+    border-spacing: 0;
+    margin: 50px auto;
+    text-align: center;
+    width: 70vmin;
+    height: 70vmin;
+}
+.chess-board th { 
+    padding: 5px;
+}
+.chess-board td{ 
+    border: 1px solid; 
+    width: 12.5%; 
+    height: 12.5%; 
+}
+.chess-board .light { 
+    background-color: #eee;
+}
+.chess-board .dark { 
+    background-color: rgb(122, 115, 115);
+}
+
+.chess-board .selected{
+    background-color: rgba(27, 55, 240, 0.826);
+}
+.chess-board .movement{
+    background-color: rgb(108, 201, 140);
+}
+.chess-board .enemyPointer{
+    background-color: rgb(237, 49, 49);
+}

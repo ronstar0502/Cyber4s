@@ -1,0 +1,42 @@
+.infobox{
+    border: 1px solid #a2a9b1;
+    border-spacing: 3px;
+    border-radius: 3px;
+    background-color: #6f7072;
+    color: black;
+    margin: 0.5px 0 0.5px 1px;;
+    padding: 5px;
+    float: right;
+    font-size: 88%;
+    width: 200px;
+    text-align: center; 
+}
+.contents{
+    border: 1px solid #a2a9b1;
+    border-radius: 3px;
+    background-color: #6f7072;
+    padding: 10px;
+    margin: 1px 0.5px 1px 1px;
+    font-size: 95%;
+    width: 200px;
+}
+.page_background{
+    background: #a6a6a6 fixed;
+}
+#underline{
+    text-decoration: underline;
+}
+.pizza_recipe{
+    border: 1px solid #a2a9b1;
+    border-spacing: 3px;
+    border-radius: 3px;
+    background-color: #6f7072;
+    color: black;
+    margin: 5px 5px 5x 5px;;
+    padding: 5px;
+    float: right;
+    font-size: 95%;
+    width:250px; 
+
+}
+

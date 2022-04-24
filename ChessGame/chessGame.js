@@ -4,7 +4,7 @@ let dataBoard;
 
 function onClick(event,row,col) {
     let selectedPiece=dataBoard.getPiece(row,col);
-    for (let i = 0; i < 8; i++) {
+    for (let i = 0; i < 8; i++) { //removing all the css classess form possible moves
         for (let j = 0; j < 8; j++) {
           myTable.rows[i].cells[j].classList.remove('movement');
           myTable.rows[i].cells[j].classList.remove('enemyPointer'); 
@@ -24,11 +24,11 @@ function onClick(event,row,col) {
         }
     }
 
-    if (selectedCell != undefined) {
+    if (selectedCell != undefined) {  //removing css class from selected piece
       selectedCell.classList.remove('selected');
     }
     selectedCell = event.currentTarget;
-    selectedCell.classList.add('selected');
+    selectedCell.classList.add('selected'); //adding css class from selected piece
     console.log(selectedCell);
 }
 function InitialBoard() {
@@ -267,7 +267,7 @@ class Piece{
     }
     queenMovement(boardData){
         let moveList=this.bishopMovement(boardData);
-        moveList.concat(this.rookMovement(boardData));
+        moveList=moveList.concat(this.rookMovement(boardData));
         return moveList;   
     }
 }
@@ -284,13 +284,5 @@ class boardData{
             }
         }
         return gPiece;
-    }
-    checkCell(pieces,row,col){ // checks if there is a chess piece in a given cell
-        for(let piece of pieces){
-            if(piece.row==row && piece.col==col){
-                return piece;
-            }
-        }
-        return undefined;
     }
 }

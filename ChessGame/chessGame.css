@@ -3,6 +3,9 @@
 }
 .chess-board { 
     border-spacing: 0;
+    border-style: groove;
+    border-color: rgb(76, 73, 69);
+    border-width: 10px;
     margin: 50px auto;
     text-align: center;
     width: 70vmin;
@@ -13,6 +16,9 @@
 }
 .chess-board td{ 
     border: 1px solid; 
+    border-style: groove;
+    border-color: rgb(203, 200, 195);
+    border-width: 2px;
     width: 12.5%; 
     height: 12.5%; 
 }

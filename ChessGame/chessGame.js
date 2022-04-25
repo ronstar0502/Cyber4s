@@ -1,9 +1,10 @@
-let selectedCell;
+// let selectedCell;
+let selectedPiece;
 let myTable;
 let dataBoard;
 
-function onClick(event,row,col) {
-    let selectedPiece=dataBoard.getPiece(row,col);
+function showPieceMovements(row,col){
+    selectedPiece=dataBoard.getPiece(row,col);
     for (let i = 0; i < 8; i++) { //removing all the css classess form possible moves
         for (let j = 0; j < 8; j++) {
           myTable.rows[i].cells[j].classList.remove('movement');
@@ -12,9 +13,9 @@ function onClick(event,row,col) {
     }
     for (let piece of dataBoard.pieces) {
         if (piece.row === row && piece.col === col) {
-          let possibleMoves = piece.getPossibleMovements(dataBoard);
+          let possibleMoves = selectedPiece.getPossibleMovements(dataBoard);
           for (let possibleMove of possibleMoves){
-              let currentMove=dataBoard.getPiece(possibleMove[0],possibleMove[1]); //checking for enemy or undefined player cell
+              const currentMove=dataBoard.getPiece(possibleMove[0],possibleMove[1]); //checking for enemy or undefined player cell
               if(currentMove&&currentMove.color != selectedPiece.color){
                 myTable.rows[possibleMove[0]].cells[possibleMove[1]].classList.add('enemyPointer');
               }else{
@@ -24,13 +25,45 @@ function onClick(event,row,col) {
         }
     }
 
-    if (selectedCell != undefined) {  //removing css class from selected piece
-      selectedCell.classList.remove('selected');
+    if (selectedPiece != undefined) {  //removing css class from selected piece
+        selectedPiece.classList.remove('selected');
     }
-    selectedCell = event.currentTarget;
-    selectedCell.classList.add('selected'); //adding css class from selected piece
-    console.log(selectedCell);
+    myTable.rows[row].cells[col].classList.add('selected'); //adding css class from selected piece
+    console.log(selectedPiece);
+    selectedPiece=currentMove;
 }
+
+function tryMove(piece , row , col){
+    const possibleMoves = piece.getPossibleMovements(dataBoard);
+    for(const possibleMove of possibleMoves){
+        if(possibleMove[0]==row && possibleMove[1]==col){ // checks if its a legal move
+            dataBoard.removePiece(row,col); // removes the current piece from the location piece
+            piece.row=row; // moves the piece to the targeted cell
+            piece.col=col;
+            return true;
+        }
+    }
+    return false;
+}
+
+function onClick(event,row,col) {
+    if(selectedPiece==undefined){
+        showPieceMovements(row,col);
+    }else{
+        if(tryMove(selectedPiece,row,col)){
+            selectedPiece=undefined;
+            createChessBoard(dataBoard);
+        }else{
+            showPieceMovements(row,col);
+        }
+    }
+}
+
+function initialGame(){
+    dataBoard=new boardData(InitialBoard());
+    createChessBoard(dataBoard);
+}
+
 function InitialBoard() {
     let result = [];
     for(let colu=0;colu<8;colu++){
@@ -57,7 +90,10 @@ function InitialBoard() {
 }
   
 
-function createChessBoard(){
+function createChessBoard(dataBoard){
+    if(myTable!=null){ //updating the board with new board after an action has accured
+        myTable.remove();
+    }
     // Creating elements
     const body = document.querySelector("body");
     myTable = document.createElement('table');
@@ -78,13 +114,19 @@ function createChessBoard(){
             myTd.addEventListener('click',(event)=>onClick(event,i,j));     
         }
     }
-    //boardPieces=InitialBoard();
-    dataBoard=new boardData(InitialBoard());
-    console.log(dataBoard.pieces);
-
-
+    for (let piece of dataBoard.pieces) {
+        const cell = myTable.rows[piece.row].cells[piece.col];
+        addImg(cell, piece.color, piece.name);
+      }
 }
-window.addEventListener('load' , createChessBoard);
+window.addEventListener('load' , initialGame);
+
+function addImg(cell,color,name){
+    const image =document.createElement('img');
+    image.src ='images/'+color+'/'+name+'.png';
+    image.id=name;
+    cell.appendChild(image);
+}
 
 class Piece{
     constructor(row,col,color,name){
@@ -92,21 +134,9 @@ class Piece{
         this.col=col;
         this.color=color;
         this.name=name;
-        this.addImg();
-        // this.opponent=this.getOpponent();
+
     }
-    addImg(){
-        const image =document.createElement('img');
-        image.src ='images/'+this.color+'/'+this.name+'.png';
-        image.id=this.name;
-        document.getElementById( "cell-" + this.row.toString() + "_" + this.col.toString()).appendChild(image);
-    }
-    // getOpponent(){
-    //     if(this.color=='white'){
-    //         return 'black'
-    //     }
-    //     return 'white';
-    // }
+
     getMoveInDirection(directionRow,directionCol,boardData){
         let moveList=[];
         let piece,position;
@@ -284,5 +314,12 @@ class boardData{
             }
         }
         return gPiece;
+    }
+    removePiece(row,col){
+        for(let i=0;i<this.pieces.length;i++){
+            if(this.pieces[i].row==row&&this.pieces[i].col==col){
+                this.pieces.splice(i,1);
+            }
+        }
     }
 }

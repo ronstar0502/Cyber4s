@@ -8,7 +8,8 @@ function showPieceMovements(row,col){
     for (let i = 0; i < 8; i++) { //removing all the css classess form possible moves
         for (let j = 0; j < 8; j++) {
           myTable.rows[i].cells[j].classList.remove('movement');
-          myTable.rows[i].cells[j].classList.remove('enemyPointer'); 
+          myTable.rows[i].cells[j].classList.remove('enemyPointer');
+          myTable.rows[i].cells[j].classList.remove('selected'); 
         }
     }
     for (let piece of dataBoard.pieces) {
@@ -23,10 +24,6 @@ function showPieceMovements(row,col){
               }
           }
         }
-    }
-
-    if (selectedPiece != undefined) {  //removing css class from selected piece
-        selectedPiece.classList.remove('selected');
     }
     myTable.rows[row].cells[col].classList.add('selected'); //adding css class from selected piece
     console.log(selectedPiece);

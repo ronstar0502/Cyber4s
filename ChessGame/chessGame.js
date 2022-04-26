@@ -1,10 +1,18 @@
 // let selectedCell;
 let selectedPiece;
 let myTable;
-let dataBoard;
+//let dataBoard;
+let gameLogic;
+
+function addImg(cell,color,name){
+    const image =document.createElement('img');
+    image.src ='images/'+color+'/'+name+'.png';
+    image.id=name;
+    cell.appendChild(image);
+}
 
 function showPieceMovements(row,col){
-    selectedPiece=dataBoard.getPiece(row,col);
+    selectedPiece=gameLogic.dataBoard.getPiece(row,col);
     for (let i = 0; i < 8; i++) { //removing all the css classess form possible moves
         for (let j = 0; j < 8; j++) {
           myTable.rows[i].cells[j].classList.remove('movement');
@@ -12,11 +20,11 @@ function showPieceMovements(row,col){
           myTable.rows[i].cells[j].classList.remove('selected'); 
         }
     }
-    for (let piece of dataBoard.pieces) {
+    for (let piece of gameLogic.dataBoard.pieces) {
         if (piece.row === row && piece.col === col) {
-          let possibleMoves = selectedPiece.getPossibleMovements(dataBoard);
+          let possibleMoves = selectedPiece.getPossibleMovements(gameLogic.dataBoard);
           for (let possibleMove of possibleMoves){
-              const currentMove=dataBoard.getPiece(possibleMove[0],possibleMove[1]); //checking for enemy or undefined player cell
+              const currentMove=gameLogic.dataBoard.getPiece(possibleMove[0],possibleMove[1]); //checking for enemy or undefined player cell
               if(currentMove&&currentMove.color != selectedPiece.color){
                 myTable.rows[possibleMove[0]].cells[possibleMove[1]].classList.add('enemyPointer');
               }else{
@@ -30,26 +38,13 @@ function showPieceMovements(row,col){
     selectedPiece=currentMove;
 }
 
-function tryMove(piece , row , col){
-    const possibleMoves = piece.getPossibleMovements(dataBoard);
-    for(const possibleMove of possibleMoves){
-        if(possibleMove[0]==row && possibleMove[1]==col){ // checks if its a legal move
-            dataBoard.removePiece(row,col); // removes the current piece from the location piece
-            piece.row=row; // moves the piece to the targeted cell
-            piece.col=col;
-            return true;
-        }
-    }
-    return false;
-}
-
-function onClick(event,row,col) {
+function onClick(row,col) {
     if(selectedPiece==undefined){
         showPieceMovements(row,col);
     }else{
-        if(tryMove(selectedPiece,row,col)){
-            selectedPiece=undefined;
-            createChessBoard(dataBoard);
+        if(gameLogic.tryMove(selectedPiece,row,col)){
+            selectedPiece=undefined;  
+            createChessBoard(gameLogic.dataBoard);
         }else{
             showPieceMovements(row,col);
         }
@@ -57,35 +52,9 @@ function onClick(event,row,col) {
 }
 
 function initialGame(){
-    dataBoard=new boardData(InitialBoard());
-    createChessBoard(dataBoard);
+    gameLogic=new Game('white');
+    createChessBoard(gameLogic.dataBoard);
 }
-
-function InitialBoard() {
-    let result = [];
-    for(let colu=0;colu<8;colu++){
-        result.push(new Piece(1,colu,'black','pawn'));
-        result.push(new Piece(6,colu,'white','pawn'));
-    }    
-    result.push(new Piece(0,0,'black','rook'));
-    result.push(new Piece(0,7,'black','rook'));
-    result.push(new Piece(7,0,'white','rook'));
-    result.push(new Piece(7,7,'white','rook'));    
-    result.push(new Piece(0,1,'black','knight'));
-    result.push(new Piece(0,6,'black','knight'));
-    result.push(new Piece(7,1,'white','knight'));
-    result.push(new Piece(7,6,'white','knight'));       
-    result.push(new Piece(0,2,'black','bishop'));
-    result.push(new Piece(0,5,'black','bishop'));
-    result.push(new Piece(7,2,'white','bishop'));
-    result.push(new Piece(7,5,'white','bishop'));       
-    result.push(new Piece(0,4,'black','king'));
-    result.push(new Piece(7,4,'white','king'));
-    result.push(new Piece(0,3,'black','queen'));
-    result.push(new Piece(7,3,'white','queen'));
-    return result;
-}
-  
 
 function createChessBoard(dataBoard){
     if(myTable!=null){ //updating the board with new board after an action has accured
@@ -108,7 +77,7 @@ function createChessBoard(dataBoard){
             }else{
                 myTd.classList.add('dark');
             }  
-            myTd.addEventListener('click',(event)=>onClick(event,i,j));     
+            myTd.addEventListener('click',()=>onClick(i,j));     
         }
     }
     for (let piece of dataBoard.pieces) {
@@ -118,9 +87,3 @@ function createChessBoard(dataBoard){
 }
 window.addEventListener('load' , initialGame);
 
-function addImg(cell,color,name){
-    const image =document.createElement('img');
-    image.src ='images/'+color+'/'+name+'.png';
-    image.id=name;
-    cell.appendChild(image);
-}

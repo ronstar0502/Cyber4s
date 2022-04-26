@@ -47,14 +47,6 @@ class Piece{
         }
         console.log('movements',movements);
 
-        // let absoluteMoves = []; // getting all the absolute moves of a player 
-        // for (let move of movements) {
-        // //const absoluteRow = this.row + move[0];
-        // //const absoluteCol = this.col + move[1];
-        // absoluteMoves.push([this.row + move[0],this.col + move[1]]);
-        // }
-        // console.log('absoluteMoves', absoluteMoves);
-
         let filteredMoves = [];  //filtering if a move is beyond the border bounds
         for (let absoluteMove of movements) {
             //const filteredRow = absoluteMove[0];

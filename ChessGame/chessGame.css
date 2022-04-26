@@ -1,5 +1,12 @@
 .title-center{
     text-align: center;
+    border: 3px solid #a2a9b1;
+    border-radius: 3px;
+    border-style: groove;
+    background-color: #6f7072;
+    padding: 10px;
+    margin:50px 10px 10px 1600px;
+    width: 200px;
 }
 .chess-board { 
     border-spacing: 0;

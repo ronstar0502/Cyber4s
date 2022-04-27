@@ -3,6 +3,7 @@ let selectedPiece;
 let myTable;
 //let dataBoard;
 let gameLogic;
+let isWinner;
 
 function addImg(cell,color,name){
     const image =document.createElement('img');
@@ -20,22 +21,24 @@ function showPieceMovements(row,col){
           myTable.rows[i].cells[j].classList.remove('selected'); 
         }
     }
+        const piece = gameLogic.dataBoard.getPiece(row, col);
     for (let piece of gameLogic.dataBoard.pieces) {
         if (piece.row === row && piece.col === col) {
-          let possibleMoves = selectedPiece.getPossibleMovements(gameLogic.dataBoard);
-          for (let possibleMove of possibleMoves){
-              const currentMove=gameLogic.dataBoard.getPiece(possibleMove[0],possibleMove[1]); //checking for enemy or undefined player cell
-              if(currentMove&&currentMove.color != selectedPiece.color){
-                myTable.rows[possibleMove[0]].cells[possibleMove[1]].classList.add('enemyPointer');
-              }else{
-                myTable.rows[possibleMove[0]].cells[possibleMove[1]].classList.add('movement');  
-              }
-          }
+            let possibleMoves = selectedPiece.getPossibleMovements(gameLogic.dataBoard);
+            for (let possibleMove of possibleMoves){
+                const currentMove=gameLogic.dataBoard.getPiece(possibleMove[0],possibleMove[1]); //checking for enemy or undefined player cell
+                if(currentMove!=undefined&&currentMove.color != selectedPiece.color){
+                    myTable.rows[possibleMove[0]].cells[possibleMove[1]].classList.add('enemyPointer');
+                }else{
+                    myTable.rows[possibleMove[0]].cells[possibleMove[1]].classList.add('movement');  
+                }
+            }
         }
     }
+    
     myTable.rows[row].cells[col].classList.add('selected'); //adding css class from selected piece
     console.log(selectedPiece);
-    selectedPiece=currentMove;
+    selectedPiece=piece;
 }
 
 function onClick(row,col) {
@@ -56,17 +59,25 @@ function initialGame(){
     createChessBoard(gameLogic.dataBoard);
 }
 
+function announceWinner(){
+    const myDiv =document.createElement('div');
+    let winnerUC =gameLogic.winner.charAt(0).toUpperCase()+gameLogic.winner.slice(1);
+    myDiv.textContent = winnerUC +" is the Winner!";
+    myDiv.classList.add('winnerAnnouncer');
+    myTable.appendChild(myDiv);
+}
+
 function createChessBoard(dataBoard){
     if(myTable!=null){ //updating the board with new board after an action has accured
         myTable.remove();
     }
     // Creating elements
-    const body = document.querySelector("body");
+    const myBody= document.querySelector("body");
     myTable = document.createElement('table');
     // Adding classes
     myTable.className = 'chess-board';
     // Adding elements to the DOM
-    body.appendChild(myTable);                
+    myBody.appendChild(myTable);                
     for(let i=0;i<8;i++){
         const myTr=myTable.insertRow();
         for(let j=0;j<8;j++){
@@ -83,7 +94,10 @@ function createChessBoard(dataBoard){
     for (let piece of dataBoard.pieces) {
         const cell = myTable.rows[piece.row].cells[piece.col];
         addImg(cell, piece.color, piece.name);
-      }
+    }
+    if(gameLogic.winner!==undefined){
+        announceWinner();
+    }
 }
 window.addEventListener('load' , initialGame);
 

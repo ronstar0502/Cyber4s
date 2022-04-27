@@ -8,7 +8,8 @@
     margin:50px 10px 10px 1600px;
     width: 200px;
 }
-.chess-board { 
+.chess-board {  
+    position: relative;
     border-spacing: 0;
     border-style: groove;
     border-color: rgb(76, 73, 69);
@@ -44,4 +45,17 @@
 }
 .chess-board .enemyPointer{
     background-color: rgb(237, 49, 49);
+}
+.winnerAnnouncer{
+    font-size: 44px;
+    color: rgb(237, 49, 49);
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-style: groove;
+    background-color: #a7abb3;
+    padding: 50px;
+    border-radius: 7px;
+    width: max-content;
 }

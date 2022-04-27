@@ -40,7 +40,9 @@ class boardData{
         for(let i=0;i<this.pieces.length;i++){
             if(this.pieces[i].row==row&&this.pieces[i].col==col){
                 this.pieces.splice(i,1);
+                return this.pieces[i];
             }
         }
+        
     }
 }

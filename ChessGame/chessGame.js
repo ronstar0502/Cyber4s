@@ -97,7 +97,10 @@ function createChessBoard(dataBoard){
     }
     if(gameLogic.winner!==undefined){
         announceWinner();
+        setTimeout(initialGame,3000);
     }
 }
 window.addEventListener('load' , initialGame);
+
+
 

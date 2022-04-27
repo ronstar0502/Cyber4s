@@ -11,6 +11,8 @@ class Game{
         return 'white';
     }
 
+
+
     tryMove(piece , row , col){
         const possibleMoves = this.getCurrentPossibleMoves(piece);
         //const targetedPiece =this.dataBoard.getPiece(row,col);

@@ -59,15 +59,3 @@
     border-radius: 7px;
     width: max-content;
 }
-.preparingMessage{
-    font-size: 44px;
-    color: rgb(237, 49, 49);
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    border-style: groove;
-    background-color: #a7abb3;
-    padding: 50px;
-    border-radius: 7px;
-    width: max-content;
-}

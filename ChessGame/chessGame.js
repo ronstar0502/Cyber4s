@@ -56,7 +56,7 @@ function onClick(row,col) {
 
 function initialGame(){
     gameLogic=new Game('white');
-    createChessBoard(gameLogic.dataBoard);
+    createChessBoard(gameLogic.dataBoard)
 }
 
 function announceWinner(){
@@ -97,7 +97,7 @@ function createChessBoard(dataBoard){
     }
     if(gameLogic.winner!==undefined){
         announceWinner();
-        setTimeout(initialGame,3000);
+        setTimeout(initialGame,4000); //reseting the game automaticly after 3 seconds of a win
     }
 }
 window.addEventListener('load' , initialGame);

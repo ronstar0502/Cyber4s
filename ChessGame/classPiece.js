@@ -49,8 +49,6 @@ class Piece{
 
         let filteredMoves = [];  //filtering if a move is beyond the border bounds
         for (let absoluteMove of movements) {
-            //const filteredRow = absoluteMove[0];
-            //const filteredCol = absoluteMove[1];
             if (absoluteMove[0] >= 0 && absoluteMove[0] <= 7 && absoluteMove[1] >= 0 && absoluteMove[1] <= 7){
                filteredMoves.push(absoluteMove);
             }
@@ -65,25 +63,20 @@ class Piece{
         let position;
         let piece;
         if(this.color=='white'){
-             if(this.row==6){
-                 row=this.row-2;
-                 piece=boardData.getPiece(row,this.col);
-                 if(piece==undefined){
-                    moveList.push([row,this.col]);
-                 }
-             }
              direction=-1;
-         }
-        if(this.color=='black'){
-            if(this.row==1){
-                row=this.row+2;
-                piece=boardData.getPiece(row,this.col);
-                 if(piece==undefined){
-                    moveList.push([row,this.col]);
-                }
+        }
+
+        row=this.row+direction*2;  // this section checks if a pawn can make the 2 steps move 
+        position=[row,this.col];
+        piece=boardData.getPiece(this.row+direction,this.col);
+        if(piece==undefined){
+            piece=boardData.getPiece(position[0],position[1]);
+            if(piece==undefined && (this.row==6 || this.row==1)){
+                moveList.push(position);
             }
         }
-        row=this.row+direction;
+
+        row=this.row+direction; //this section if the pawn can make the 1 step move
         position = [row,this.col]
         piece=boardData.getPiece(position[0],position[1]);
         if(piece==undefined){ //empty cell
